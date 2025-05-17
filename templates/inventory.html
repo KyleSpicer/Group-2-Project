@@ -4,9 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>Inventory</h1>
-    {{ inventory|safe }}
+    <div class="container">
+        <a href="/" class="back-button">← Back to Home</a>
+        <h1>Inventory Management</h1>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Rating</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Total Qty</th>
+                        <th>Available</th>
+                        <th>Reserved</th>
+                        <th>Checked Out</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in books %}
+                    {% set rating_map = {'One': 1, 'Two': 2, 'Three': 3, 'Four': 4, 'Five': 5} %}
+                    {% set rating_num = rating_map.get(book.Star_rating, 0) %}
+                    <tr>
+                        <td>{{ book.Title }}</td>
+                        <td>{{ book.Book_category }}</td>
+                        <td class="rating">{{ "★" * rating_num }}{{ "☆" * (5 - rating_num) }}</td>
+                        <td class="price">${{ "%.2f"|format(book.Price) }}</td>
+                        <td>
+                            <span class="stock-status {% if book.Stock == 'In stock' %}in-stock{% else %}out-of-stock{% endif %}">
+                                {{ book.Stock }}
+                            </span>
+                        </td>
+                        <td>{{ book.Quantity }}</td>
+                        <td>{{ book.Available_Count }}</td>
+                        <td>{{ book.Reserved_Count }}</td>
+                        <td>{{ book.Checked_Out_Count }}</td>
+                        <td>
+                            <form class="update-form" method="POST" action="/update_status">
+                                <input type="hidden" name="title" value="{{ book.Title }}">
+                                <select name="status" required>
+                                    <option value="">Select Action</option>
+                                    <option value="Add Book">Add Book</option>
+                                    <option value="Checked Out">Check Out</option>
+                                    <option value="Reserved">Reserve</option>
+                                    <option value="Lost">Lost</option>
+                                    <option value="Return">Return</option>
+                                </select>
+                                <input type="number" name="quantity_change" placeholder="Qty" min="1" required>
+                                <button type="submit">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

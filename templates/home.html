@@ -1,13 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>{{ title }}</h1>
-    <button onclick="location.href='/inventory'">View/Search Inventory</button><br><br>
-    <button onclick="location.href='/customer_order'">Customer Order</button><br><br>
-    <button onclick="location.href='/supplier_order'">Supplier Order</button><br><br>
-    <button onclick="location.href='/records'">View/Search Records</button>
+    <div class="container">
+        <h1>{{ title }}</h1>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <div class="menu-icon">📚</div>
+                <button class="menu-button" onclick="location.href='/inventory'">
+                    View/Search Inventory
+                </button>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon">🛒</div>
+                <button class="menu-button" onclick="location.href='/customer_order'">
+                    Customer Order
+                </button>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon">📦</div>
+                <button class="menu-button" onclick="location.href='/supplier_order'">
+                    Supplier Order
+                </button>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon">📊</div>
+                <button class="menu-button" onclick="location.href='/records'">
+                    View/Search Records
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
